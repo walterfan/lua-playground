@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lua Playground</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #1e1e2e; color: #cdd6f4;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 2.5rem; font-size: 17px;
+  }
+  .container { max-width: 1440px; width: 100%; }
+  h1 { color: #89b4fa; margin-bottom: 1rem; font-size: 2.2rem; }
+  .hint { margin-bottom: 1rem; color: #a6adc8; }
+  .hint code {
+    background: #313244; border-radius: 4px;
+    padding: 0.1rem 0.35rem; font-size: 14px;
+  }
+  .layout { display: flex; gap: 1rem; align-items: stretch; }
+
+  .sidebar {
+    flex: none; width: 260px;
+    background: #181825; border: 1px solid #45475a; border-radius: 8px;
+    padding: 0.9rem;
+  }
+  .sidebar h2 {
+    color: #f9e2af; font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 0.5rem;
+  }
+  #snippetList {
+    list-style: none; max-height: 640px; overflow-y: auto;
+  }
+  #snippetList li {
+    padding: 0.5rem 0.65rem; border-radius: 6px;
+    font-size: 15px; cursor: pointer;
+    color: #cdd6f4; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  #snippetList li:hover { background: #313244; }
+  #snippetList li.active { background: #89b4fa; color: #1e1e2e; font-weight: 600; }
+  #snippetList li.empty { color: #6c7086; cursor: default; }
+  #snippetList li.empty:hover { background: transparent; }
+  .sidebar .tip {
+    margin-top: 0.75rem; font-size: 12px; color: #6c7086; line-height: 1.5;
+  }
+
+  .rightbar {
+    flex: none; width: 230px;
+    background: #181825; border: 1px solid #45475a; border-radius: 8px;
+    padding: 0.9rem;
+  }
+  .rightbar h2 {
+    color: #f9e2af; font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 0.5rem;
+  }
+  .rightbar h3 {
+    color: #a6adc8; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin: 0.75rem 0 0.35rem 0;
+  }
+  #statementList {
+    max-height: 640px; overflow-y: auto;
+  }
+  #statementList ul { list-style: none; }
+  #statementList li {
+    padding: 0.5rem 0.65rem; border-radius: 6px;
+    font-size: 15px; cursor: pointer;
+    color: #cdd6f4; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  #statementList li:hover { background: #313244; }
+  #statementList li:active { background: #89b4fa; color: #1e1e2e; }
+  .rightbar .tip {
+    margin-top: 0.75rem; font-size: 12px; color: #6c7086; line-height: 1.5;
+  }
+
+  .main { flex: 1; min-width: 0; }
+  textarea {
+    width: 100%; height: 480px;
+    background: #313244; color: #a6e3a1;
+    border: 1px solid #45475a; border-radius: 8px;
+    padding: 1rem; font-family: "Fira Code", Consolas, monospace;
+    font-size: 16px; resize: vertical; tab-size: 4;
+  }
+  textarea:focus { outline: 2px solid #89b4fa; }
+  .toolbar {
+    display: flex; gap: 0.5rem; margin-top: 1rem;
+    align-items: center; flex-wrap: wrap;
+  }
+  .toolbar input {
+    flex: 1 1 180px; min-width: 0;
+    background: #181825; color: #cdd6f4;
+    border: 1px solid #45475a; border-radius: 6px;
+    padding: 0.7rem 0.9rem; font-size: 16px;
+  }
+  .toolbar input:focus { outline: 2px solid #89b4fa; }
+  button {
+    padding: 0.7rem 1.6rem;
+    border: none; border-radius: 6px; cursor: pointer;
+    font-size: 16px; font-weight: 600;
+  }
+  #runBtn { background: #89b4fa; color: #1e1e2e; }
+  #runBtn:hover { background: #74c7ec; }
+  #saveBtn { background: #a6e3a1; color: #1e1e2e; }
+  #saveBtn:hover { background: #94e2d5; }
+  #deleteBtn { background: #f38ba8; color: #1e1e2e; }
+  #deleteBtn:hover { background: #eba0ac; }
+  button:disabled { opacity: 0.7; cursor: not-allowed; }
+  button:disabled:hover { background: #f38ba8; }
+  #runBtn:disabled { cursor: wait; }
+
+  #status { margin-top: 0.75rem; font-size: 14px; min-height: 1.2em; }
+  #status.error { color: #f38ba8; }
+  #status.ok { color: #a6e3a1; }
+
+  .output-label { margin-top: 1rem; color: #f9e2af; font-weight: 600; }
+  pre {
+    margin-top: 0.5rem; padding: 1rem;
+    background: #11111b; border-radius: 8px;
+    white-space: pre-wrap; word-wrap: break-word;
+    min-height: 100px; font-size: 16px;
+    font-family: "Fira Code", Consolas, monospace;
+  }
+  .error { color: #f38ba8; }
+  .success { color: #a6e3a1; }
+
+  .docs {
+    margin-top: 1.5rem; font-size: 14px; color: #a6adc8;
+  }
+  .docs a, footer a {
+    color: #89b4fa; text-decoration: none;
+  }
+  .docs a:hover, footer a:hover {
+    color: #74c7ec; text-decoration: underline;
+  }
+  .docs .label { color: #6c7086; margin-right: 0.5rem; }
+  .docs a + a { margin-left: 1rem; }
+  footer {
+    margin-top: 1.5rem; padding-top: 1rem;
+    border-top: 1px solid #313244;
+    text-align: center; font-size: 13px; color: #6c7086;
+  }
+  footer a { margin-left: 0.35rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Lua Playground</h1>
+  <p class="hint">
+    Pick a snippet on the left or type your own, insert statements from the right menu,
+    then click <strong>Run</strong>. Use <code>print()</code> to produce output.
+  </p>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Snippets</h2>
+      <ul id="snippetList"><li class="empty">loading...</li></ul>
+      <p class="tip">Click to load. Save the editor content as a snippet, or delete the selected one, with the toolbar buttons.</p>
+    </aside>
+    <main class="main">
+      <textarea id="code" spellcheck="false">print("Hello from Lua Playground!")
+
+for i = 1, 5 do
+  print(i .. " squared = " .. i * i)
+end</textarea>
+      <div class="toolbar">
+        <input id="snippetName" placeholder="snippet name" spellcheck="false" maxlength="48">
+        <button type="button" id="saveBtn">Save</button>
+        <button type="button" id="deleteBtn" disabled>Delete</button>
+        <button type="button" id="runBtn">Run</button>
+      </div>
+      <div id="status"></div>
+      <div class="output-label">Output:</div>
+      <pre id="output"><span class="success">-- Results will appear here --</span></pre>
+    </main>
+
+    <aside class="rightbar">
+      <h2>Statements</h2>
+      <div id="statementList"></div>
+      <p class="tip">Click to insert the template at the cursor in the editor.</p>
+    </aside>
+  </div>
+
+  <div class="docs">
+    <span class="label">Docs:</span>
+    <a href="https://www.lua.org/manual/5.1/" target="_blank" rel="noopener">Lua 5.1 Reference Manual</a>
+    <a href="https://luajit.org/extensions.html" target="_blank" rel="noopener">LuaJIT Extensions</a>
+    <a href="https://openresty.org/en/documentation.html" target="_blank" rel="noopener">OpenResty Documentation</a>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 Walter Fan
+  <a href="https://www.fanyamin.com" target="_blank" rel="noopener">www.fanyamin.com</a>
+</footer>
+
+<script>
+(function() {
+    "use strict";
+
+    var selectedSnippet = null;
+    var statusTimer = null;
+
+    // ---- helpers -----------------------------------------------------------
+
+    function escapeHtml(str) {
+        var div = document.createElement("div");
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    function request(method, url, params, onDone) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            var data = null;
+            try { data = JSON.parse(xhr.responseText); } catch (e) {}
+            onDone(xhr.status, data);
+        };
+        xhr.onerror = function() { onDone(0, null); };
+        xhr.send(params);
+    }
+
+    function setStatus(message, isError) {
+        var el = document.getElementById("status");
+        el.textContent = message;
+        el.className = isError ? "error" : "ok";
+        if (statusTimer) clearTimeout(statusTimer);
+        statusTimer = setTimeout(function() {
+            el.textContent = "";
+            el.className = "";
+        }, 4000);
+    }
+
+    function updateButtons() {
+        document.getElementById("deleteBtn").disabled = !selectedSnippet;
+    }
+
+    // ---- snippet menu ------------------------------------------------------
+
+    function showEmptyList(message) {
+        var list = document.getElementById("snippetList");
+        list.innerHTML = "";
+        var li = document.createElement("li");
+        li.className = "empty";
+        li.textContent = message;
+        list.appendChild(li);
+    }
+
+    function renderList(snippets) {
+        var list = document.getElementById("snippetList");
+        list.innerHTML = "";
+        if (!snippets.length) {
+            showEmptyList("-- no snippets --");
+            return;
+        }
+        var stillSelected = false;
+        snippets.forEach(function(snippet) {
+            var li = document.createElement("li");
+            li.textContent = snippet.name;
+            li.title = snippet.name;
+            li.addEventListener("click", function() {
+                var items = list.getElementsByTagName("li");
+                for (var i = 0; i < items.length; i++) {
+                    items[i].className = "";
+                }
+                li.className = "active";
+                selectedSnippet = snippet.name;
+                document.getElementById("code").value = snippet.code;
+                document.getElementById("snippetName").value = snippet.name;
+                updateButtons();
+                setStatus('Loaded "' + snippet.name + '"', false);
+            });
+            if (snippet.name === selectedSnippet) {
+                li.className = "active";
+                stillSelected = true;
+            }
+            list.appendChild(li);
+        });
+        if (!stillSelected) {
+            selectedSnippet = null;
+            updateButtons();
+        }
+    }
+
+    function loadSnippets() {
+        request("GET", "/snippets", null, function(status, data) {
+            if (status === 200 && data && data.snippets) {
+                renderList(data.snippets);
+            } else {
+                showEmptyList("-- failed to load --");
+                setStatus((data && data.error) || ("HTTP " + status), true);
+            }
+        });
+    }
+
+    // ---- save / delete -----------------------------------------------------
+
+    document.getElementById("saveBtn").addEventListener("click", function() {
+        var name = document.getElementById("snippetName").value.trim();
+        var code = document.getElementById("code").value;
+        if (!name) {
+            setStatus("Enter a snippet name first", true);
+            return;
+        }
+        if (!code.trim()) {
+            setStatus("Nothing to save", true);
+            return;
+        }
+        request("POST", "/snippets/save",
+            "name=" + encodeURIComponent(name) +
+            "&code=" + encodeURIComponent(code),
+            function(status, data) {
+                if (status === 200 && data && !data.error) {
+                    selectedSnippet = data.name;
+                    setStatus(data.updated
+                        ? 'Updated "' + name + '"'
+                        : 'Saved new snippet "' + name + '"', false);
+                    loadSnippets();
+                } else {
+                    setStatus((data && data.error) || ("HTTP " + status), true);
+                }
+            });
+    });
+
+    document.getElementById("deleteBtn").addEventListener("click", function() {
+        if (!selectedSnippet) return;
+        if (!window.confirm('Delete snippet "' + selectedSnippet + '"?')) return;
+        request("POST", "/snippets/delete",
+            "name=" + encodeURIComponent(selectedSnippet),
+            function(status, data) {
+                if (status === 200 && data && !data.error) {
+                    setStatus('Deleted "' + selectedSnippet + '"', false);
+                    selectedSnippet = null;
+                    document.getElementById("snippetName").value = "";
+                    updateButtons();
+                    loadSnippets();
+                } else {
+                    setStatus((data && data.error) || ("HTTP " + status), true);
+                }
+            });
+    });
+
+    // ---- run ---------------------------------------------------------------
+
+    document.getElementById("runBtn").addEventListener("click", function() {
+        var btn = document.getElementById("runBtn");
+        var output = document.getElementById("output");
+        var code = document.getElementById("code").value;
+
+        btn.disabled = true;
+        btn.textContent = "Running...";
+        output.innerHTML = '<span style="color:#a6adc8">Executing...</span>';
+
+        request("POST", "/run", "code=" + encodeURIComponent(code),
+            function(status, data) {
+                btn.disabled = false;
+                btn.textContent = "Run";
+                if (status === 200) {
+                    if (data && data.error) {
+                        output.innerHTML = '<span class="error">' +
+                            escapeHtml(data.error) + '</span>';
+                    } else if (data) {
+                        output.innerHTML = '<span class="success">' +
+                            escapeHtml(data.output || "(no output)") + '</span>';
+                    } else {
+                        output.innerHTML = '<span class="error">Bad response</span>';
+                    }
+                } else {
+                    var message = "HTTP " + status;
+                    if (data && data.error) {
+                        message = data.error;
+                    }
+                    output.innerHTML = '<span class="error">' +
+                        escapeHtml(message) + '</span>';
+                }
+            });
+    });
+
+    // ---- statement menu (right) ---------------------------------------------
+
+    var STATEMENTS = [
+        { group: "Control flow", items: [
+            { name: "if / elseif / else", code:
+"if condition then\n  print(\"then\")\nelseif other then\n  print(\"elseif\")\nelse\n  print(\"else\")\nend" },
+            { name: "while loop", code:
+"local i = 1\nwhile i <= 5 do\n  print(i)\n  i = i + 1\nend" },
+            { name: "numeric for", code:
+"for i = 1, 10, 2 do\n  print(i)\nend" },
+            { name: "generic for", code:
+"local t = { \"a\", \"b\", \"c\" }\nfor index, value in ipairs(t) do\n  print(index, value)\nend\n\nfor key, value in pairs(t) do\n  print(key, value)\nend" },
+            { name: "repeat-until", code:
+"local count = 0\nrepeat\n  count = count + 1\nuntil count >= 3\nprint(count)" }
+        ]},
+        { group: "Data & strings", items: [
+            { name: "local variables", code:
+"local name = \"Lua\"\nlocal a, b = 1, 2\na, b = b, a   -- swap\nprint(name, a, b)" },
+            { name: "table", code:
+"local colors = { \"red\", \"green\", \"blue\" }\ncolors[#colors + 1] = \"black\"\n\nlocal config = { host = \"localhost\", port = 8080 }\nprint(config.host, config.port, #colors)" },
+            { name: "string.format", code:
+"local name, pi = \"Lua\", math.pi\nprint(string.format(\"hi %s, pi ~ %.2f\", name, pi))\nprint(string.format(\"[%8s]\", \"pad\"))" },
+            { name: "string patterns", code:
+"local text = \"2026-10-16\"\nlocal y, m, d = text:match(\"(%d+)-(%d+)-(%d+)\")\nprint(y, m, d)\nprint((\"a1b2\"):gsub(\"%d\", \"#\"))" },
+            { name: "output (print)", code:
+"-- print() is the only I/O here; io/os are disabled in this sandbox\nprint(\"text:\", 42, true)\nprint(table.concat({1, 2, 3}, \", \"))" }
+        ]},
+        { group: "Functions & advanced", items: [
+            { name: "function", code:
+"local function greet(name)\n  return \"Hello, \" .. name .. \"!\"\nend\nprint(greet(\"Lua\"))" },
+            { name: "varargs function", code:
+"local function count_args(...)\n  local args = { ... }\n  return #args, args\nend\nprint(count_args(1, \"two\", true))" },
+            { name: "metatable / class", code:
+"local Point = {}\nPoint.__index = Point\n\nfunction Point.new(x, y)\n  return setmetatable({ x = x, y = y }, Point)\nend\n\nfunction Point:__tostring()\n  return \"(\" .. self.x .. \", \" .. self.y .. \")\"\nend\n\nprint(tostring(Point.new(3, 4)))" },
+            { name: "pcall", code:
+"local ok, err = pcall(function()\n  error(\"boom\")\nend)\nprint(ok, err)" },
+            { name: "coroutine", code:
+"local gen = coroutine.wrap(function()\n  for i = 1, 3 do coroutine.yield(i) end\nend)\nprint(gen(), gen(), gen())" }
+        ]}
+    ];
+
+    function insertAtCursor(text) {
+        var ta = document.getElementById("code");
+        var start = ta.selectionStart;
+        var end = ta.selectionEnd;
+        var before = ta.value.substring(0, start);
+        var after = ta.value.substring(end);
+        var prefix = (before.length > 0 && before.charAt(before.length - 1) !== "\n") ? "\n" : "";
+        var suffix = (after.length > 0 && after.charAt(0) !== "\n") ? "\n" : "";
+        ta.value = before + prefix + text + suffix + after;
+        var newPos = start + prefix.length + text.length;
+        ta.setSelectionRange(newPos, newPos);
+        ta.focus();
+    }
+
+    function renderStatementMenu() {
+        var menu = document.getElementById("statementList");
+        STATEMENTS.forEach(function(section) {
+            var h = document.createElement("h3");
+            h.textContent = section.group;
+            menu.appendChild(h);
+            var ul = document.createElement("ul");
+            section.items.forEach(function(item) {
+                var li = document.createElement("li");
+                li.textContent = item.name;
+                li.title = "Insert " + item.name;
+                li.addEventListener("click", function() {
+                    insertAtCursor(item.code);
+                    setStatus('Inserted "' + item.name + '"', false);
+                });
+                ul.appendChild(li);
+            });
+            menu.appendChild(ul);
+        });
+    }
+
+    renderStatementMenu();
+    loadSnippets();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+services:
+  openresty:
+    image: openresty/openresty:alpine
+    ports:
+      - "8080:80"
+    mem_limit: 256m
+    volumes:
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./lua:/app/lua:ro
+      - ./html:/app/html:ro
+      - ./snippets:/app/snippets
