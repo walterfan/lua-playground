@@ -66,6 +66,47 @@ Limits:
 
 The bundled snippet library in `snippets/` tours the language: variables and scope, operators, control flow, functions and varargs, string literals/format/patterns, the math library, tables, iterators, closures, metatables and metamethods, OOP with inheritance, error handling, and coroutines.
 
+The library contains **48 numbered snippets**, grouped in the left menu:
+
+| Numbers | Category |
+| --- | --- |
+| 01–04 | 基础语法 — basics |
+| 05–08 | 函数与集合 — functions and collections |
+| 09–13 | 字符串与数学 — strings and math |
+| 14–18 | 元表与运行控制 — metatables and runtime control |
+| 19–28 | 常见错误·初级 — article mistakes 01–10 |
+| 29–38 | 常见错误·中级 — article mistakes 11–20 |
+| 39–48 | 常见错误·高级 — article mistakes 21–30 |
+
+See the [complete snippet index](snippets/README.md). The 30 mistake examples
+follow `tech_20261022_lua-top-10-mistakes.md` (the article covers thirty mistakes).
+Each presents **错误写法 → 正确写法**, with observed results and explanations.
+Runtime errors are caught with `pcall` so the correction still runs. Invalid
+syntax is shown as source text so it does not prevent the whole snippet compiling.
+Module loading and dynamic compilation examples display local Lua source because
+those capabilities are disabled in the web sandbox. GC examples explain how to
+verify collection locally; the sandbox does not expose `collectgarbage` or `debug`.
+
+The examples correct several statements in the article according to the official
+[Lua 5.1 manual](https://www.lua.org/manual/5.1/manual.html) and
+[Lua 5.4 manual](https://www.lua.org/manual/5.4/manual.html): table `__gc` is still
+supported in standard Lua 5.4; sparse arrays need an explicit traversal bound;
+numeric `for` closures already have per-iteration locals in Lua 5.1; a weak-key
+entry depends on key reachability; and table length has a documented worst case
+of O(log n), rather than a universal O(1) guarantee.
+
+Bundled filenames use a two-digit learning order. Menu labels come from the first
+two comment lines, for example:
+
+```lua
+-- @category: 01 基础语法
+-- @title: 01. Hello Lua
+```
+
+The original filename remains the identity used for save/delete. A snippet without
+these comments appears under **99 我的片段** with its filename as its label.
+The API and flat `snippets/` directory layout remain the same.
+
 This sandbox is for learning and local use. It is not a complete isolation boundary against a hostile user.
 
 ## API

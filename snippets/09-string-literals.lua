@@ -1,3 +1,5 @@
+-- @category: 03 字符串与数学
+-- @title: 09. 字符串字面量
 -- String literals: quotes, escapes, long brackets, comments
 local single = 'single quotes work the same'
 local escapes = "line1\nline2\ttabbed \"quoted\" backslash: \\"

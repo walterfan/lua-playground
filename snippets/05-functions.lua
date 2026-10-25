@@ -1,3 +1,5 @@
+-- @category: 02 函数与集合
+-- @title: 05. 函数与可变参数
 -- Functions: multiple returns, varargs, recursion, higher-order functions
 local function min_max(t)
   local lo, hi = math.huge, -math.huge
@@ -17,8 +19,9 @@ print("wrapped:", wrapped[1], wrapped[2])
 -- varargs: ... inside a function
 local function log(tag, ...)
   local args = {...}
-  print("[" .. tag .. "] got " .. #args .. " args")
-  for i = 1, #args do
+  local count = select("#", ...)
+  print("[" .. tag .. "] got " .. count .. " args")
+  for i = 1, count do
     print("  arg" .. i .. " =", tostring(args[i]))
   end
 end

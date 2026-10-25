@@ -1,3 +1,5 @@
+-- @category: 04 元表与运行控制
+-- @title: 15. 元方法
 -- Beyond __index: __newindex, __call, __eq, __lt, __concat, __unm, __len, raw*
 local defaults = { color = "black", size = "M" }
 local shirt = setmetatable({}, {

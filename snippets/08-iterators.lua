@@ -1,3 +1,5 @@
+-- @category: 02 函数与集合
+-- @title: 08. 迭代器
 -- Iterators: closure-based, stateless, and custom traversal
 local function range(from, to, step)  -- closure-based iterator
   step = step or 1

@@ -1,3 +1,5 @@
+-- @category: 04 元表与运行控制
+-- @title: 17. 错误处理
 -- Error handling with pcall, error, and assert
 local ok, err = pcall(function()
   error("something went wrong")

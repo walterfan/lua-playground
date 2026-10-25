@@ -1,3 +1,5 @@
+-- @category: 04 元表与运行控制
+-- @title: 18. 协程
 -- Coroutines: cooperative multitasking, generators, pipelines
 local co = coroutine.create(function(a)
   local b = coroutine.yield(a + 1)         -- pause, send a value out

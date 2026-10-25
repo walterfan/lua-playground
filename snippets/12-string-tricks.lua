@@ -1,3 +1,5 @@
+-- @category: 03 字符串与数学
+-- @title: 12. 字符串工具
 -- String library tour
 local s = "the quick brown fox"
 

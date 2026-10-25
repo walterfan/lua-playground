@@ -1,3 +1,5 @@
+-- @category: 04 元表与运行控制
+-- @title: 16. 对象与继承
 -- Classes and inheritance with metatables
 local Animal = {}
 Animal.__index = Animal

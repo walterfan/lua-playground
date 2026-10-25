@@ -33,6 +33,14 @@
   #snippetList {
     list-style: none; max-height: 640px; overflow-y: auto;
   }
+  #snippetList .snippet-group { padding: 0; cursor: default; }
+  #snippetList .snippet-group:hover { background: transparent; }
+  #snippetList h3 {
+    margin: 0.8rem 0 0.3rem; color: #f9e2af;
+    font-size: 13px; white-space: normal;
+  }
+  #snippetList ul { list-style: none; }
+  #snippetList li[role="button"]:focus-visible { outline: 2px solid #89b4fa; }
   #snippetList li {
     padding: 0.5rem 0.65rem; border-radius: 6px;
     font-size: 15px; cursor: pointer;
@@ -157,7 +165,7 @@
     <aside class="sidebar">
       <h2>Snippets</h2>
       <ul id="snippetList"><li class="empty">loading...</li></ul>
-      <p class="tip">Click to load. Save the editor content as a snippet, or delete the selected one, with the toolbar buttons.</p>
+      <p class="tip">按分类和编号学习；常见错误示例先展示错误，再展示修正。点击加载，使用工具栏保存或删除。</p>
     </aside>
     <main class="main">
       <textarea id="code" spellcheck="false">print("Hello from Lua Playground!")
@@ -252,18 +260,55 @@ end</textarea>
 
     function renderList(snippets) {
         var list = document.getElementById("snippetList");
-        list.innerHTML = "";
+        list.textContent = "";
         if (!snippets.length) {
             showEmptyList("-- no snippets --");
             return;
         }
         var stillSelected = false;
+        var groups = new Map();
+        // Metadata is display-only. Keep the original filename for save/delete.
+        // Treat snippet text as untrusted and render labels with textContent.
+        snippets = snippets.filter(function(snippet) {
+            return snippet && typeof snippet.name === "string" &&
+                typeof snippet.code === "string";
+        }).map(function(snippet) {
+            var header = snippet.code.slice(0, 512);
+            var category = header.match(/^-- @category: ([^\r\n]{1,80})\r?$/m);
+            var title = header.match(/^-- @title: ([^\r\n]{1,100})\r?$/m);
+            return {
+                name: snippet.name, code: snippet.code,
+                category: category ? category[1] : "99 我的片段",
+                title: title ? title[1] : snippet.name
+            };
+        }).sort(function(a, b) {
+            return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
+        });
         snippets.forEach(function(snippet) {
+            if (!groups.has(snippet.category)) {
+                var group = document.createElement("li");
+                group.className = "snippet-group";
+                var heading = document.createElement("h3");
+                heading.textContent = snippet.category;
+                var groupList = document.createElement("ul");
+                group.appendChild(heading);
+                group.appendChild(groupList);
+                list.appendChild(group);
+                groups.set(snippet.category, groupList);
+            }
             var li = document.createElement("li");
-            li.textContent = snippet.name;
+            li.textContent = snippet.title;
             li.title = snippet.name;
+            li.tabIndex = 0;
+            li.setAttribute("role", "button");
+            li.addEventListener("keydown", function(event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    li.click();
+                }
+            });
             li.addEventListener("click", function() {
-                var items = list.getElementsByTagName("li");
+                var items = list.querySelectorAll('li[role="button"]');
                 for (var i = 0; i < items.length; i++) {
                     items[i].className = "";
                 }
@@ -278,7 +323,7 @@ end</textarea>
                 li.className = "active";
                 stillSelected = true;
             }
-            list.appendChild(li);
+            groups.get(snippet.category).appendChild(li);
         });
         if (!stillSelected) {
             selectedSnippet = null;

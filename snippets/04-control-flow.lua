@@ -1,3 +1,5 @@
+-- @category: 01 基础语法
+-- @title: 04. 控制流程
 -- if / elseif / else, while, repeat-until, for loops, break
 local n = 42
 

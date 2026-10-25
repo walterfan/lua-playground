@@ -1,3 +1,5 @@
+-- @category: 01 基础语法
+-- @title: 02. 变量与作用域
 -- Variables, multiple assignment, and scope
 x = 10                -- global (stored in the sandbox environment table)
 local y = 20          -- local to this chunk

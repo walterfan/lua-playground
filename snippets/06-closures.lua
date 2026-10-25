@@ -1,3 +1,5 @@
+-- @category: 02 函数与集合
+-- @title: 06. 闭包
 -- Closures: functions that remember their environment
 local function make_counter()
   local count = 0

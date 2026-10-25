@@ -1,3 +1,5 @@
+-- @category: 01 基础语法
+-- @title: 01. Hello Lua
 -- Basics: variables, strings, format, loops
 local name = "Lua"
 print(string.format("Hello, %s! %d + %d = %d", name, 2, 3, 2 + 3))

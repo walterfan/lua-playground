@@ -1,3 +1,5 @@
+-- @category: 04 元表与运行控制
+-- @title: 14. 元表
 -- OOP with metatables: a Vector class
 local Vector = {}
 Vector.__index = Vector

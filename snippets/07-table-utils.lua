@@ -1,3 +1,5 @@
+-- @category: 02 函数与集合
+-- @title: 07. 表操作
 -- Tables: arrays, insert/remove/sort/concat, and maps
 local t = {5, 3, 8, 1}
 table.sort(t)

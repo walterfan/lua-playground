@@ -1,3 +1,5 @@
+-- @category: 03 字符串与数学
+-- @title: 11. 字符串模式
 -- Lua patterns (they are not regex): classes, sets, quantifiers, captures
 local text = "2026-10-15 lua-playground v1.31"
 
