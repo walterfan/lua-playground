@@ -1,0 +1,119 @@
+snippets/37-pitfall-19-module-cache.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-15
+snippets/07-table-utils.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-16
+snippets/32-pitfall-14-false-default.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-13
+snippets/02-variables-and-scope.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-19
+snippets/11-string-patterns.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-39
+snippets/12-string-tricks.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-17
+snippets/36-pitfall-18-nested-varargs.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-22
+snippets/25-pitfall-07-table-equality.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-13
+snippets/26-pitfall-08-local-scope.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-14
+snippets/30-pitfall-12-string-building.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-14
+snippets/05-functions.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-46
+html/index.html
+  s_4bb6f695ec4a6d::t_7145eda90b74bb 36-43,168,263,269-286,288-298,300,302-309,311,326
+snippets/35-pitfall-17-error-context.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-17
+snippets/43-pitfall-25-goto-scope.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-23
+snippets/44-pitfall-26-bitwise-version.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-21
+snippets/46-pitfall-28-load-errors.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-21
+snippets/48-pitfall-30-hot-loops.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-16
+snippets/10-string-format.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-12
+snippets/27-pitfall-09-closure-capture.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-17
+README.md
+  s_4bb6f695ec4a6d::t_9e27a81216cce6 69-109
+snippets/06-closures.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-29
+snippets/14-metatables.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-26
+snippets/16-oop-inheritance.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-42
+snippets/39-pitfall-21-shared-upvalue.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-18
+snippets/09-string-literals.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-26
+snippets/24-pitfall-06-concatenation.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-10
+snippets/40-pitfall-22-weak-table.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-21
+snippets/41-pitfall-23-finalization.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-28
+snippets/22-pitfall-04-division.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-9
+snippets/28-pitfall-10-method-self.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-11
+snippets/47-pitfall-29-quoted-strings.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-11
+snippets/38-pitfall-20-deep-copy.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-25
+snippets/19-pitfall-01-array-index.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-10
+snippets/01-hello.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-9
+snippets/23-pitfall-05-multiple-returns.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-11
+snippets/04-control-flow.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-38
+snippets/08-iterators.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-42
+snippets/13-math-functions.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-20
+snippets/15-metamethods.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-39
+snippets/17-error-handling.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-20
+snippets/34-pitfall-16-format-types.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-17
+snippets/29-pitfall-11-ipairs-holes.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-13
+snippets/33-pitfall-15-array-removal.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-12
+snippets/21-pitfall-03-length-holes.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-12
+snippets/03-operators.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-27
+snippets/20-pitfall-02-nil-value.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-16
+snippets/31-pitfall-13-proxy-metatable.lua
+  s_4bb6f695ec4a6d::t_d67a1fafa0a06b 1-18
+snippets/45-pitfall-27-callable-table.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-11
+snippets/18-coroutines.lua
+  s_4bb6f695ec4a6d::t_a28d7ca950bd61 1-38
+snippets/README.md
+  s_4bb6f695ec4a6d::t_ca9b250efcd779 1-94
+snippets/42-pitfall-24-coroutine-values.lua
+  s_4bb6f695ec4a6d::t_1bcd49dffad316 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "43914b621bb27796ff3d11e643bbf73d5edb286f",
+  "prompts": {},
+  "sessions": {
+    "s_4bb6f695ec4a6d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a170bd-f820-7380-9082-6736a76332e2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Walter Fan <walter.fan@zoom.us>"
+    }
+  }
+}
